@@ -1,0 +1,23 @@
+{
+  "src/index-legacy.js": {
+    "file": "web-legacy-DUW9OBZI.js",
+    "name": "web",
+    "src": "src/index-legacy.js",
+    "isEntry": true
+  },
+  "src/index.js": {
+    "file": "web-CAjwG-Lh.js",
+    "name": "web",
+    "src": "src/index.js",
+    "isEntry": true,
+    "css": [
+      "web-O3KSJp_g.css"
+    ]
+  },
+  "vite/legacy-polyfills-legacy": {
+    "file": "polyfills-legacy-B4UBZd6s.js",
+    "name": "polyfills",
+    "src": "vite/legacy-polyfills-legacy",
+    "isEntry": true
+  }
+}

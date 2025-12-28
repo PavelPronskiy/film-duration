@@ -1,0 +1,128 @@
+@use "@picocss/pico/scss/pico" with ($theme-color: "slate");
+@use "./flex";
+@use "./mixin";
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    /* горизонтальное центрирование */
+    align-items: center;
+    /* вертикальное центрирование */
+    height: 100%;
+}
+
+section {
+    max-width: 80%;
+
+}
+
+.results-container {
+	margin:1em 0;
+}
+
+form {
+    border: 1px solid var(--pico-secondary-border);
+    border-radius: 30px;
+    width: 100%;
+    padding: 2rem;
+    // border: 1px solid #ccc;
+    // border-radius: 0.5rem;
+}
+
+#supported-domains-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px 0;
+
+    ul {
+        list-style: none;
+        display: flex;
+	    flex-wrap: wrap;
+        margin: 0px 0 0 0;
+        padding: 0px 0;
+
+        li {
+            list-style: none;
+            margin-left: 15px;
+			@include mixin.pads();
+            
+
+        }
+    }
+}
+
+#result-debug {
+	margin:1em 0;
+}
+
+#result-message-error {
+    display: none;
+    background: var(--pico-form-element-invalid-border-color);
+    padding: 15px;
+    border-radius: 25px;
+}
+
+#result-message {
+    padding: 15px;
+    display: flex;
+    display: none;
+
+    #result-duration-text {
+        margin-right: 15px;
+    }
+
+
+    #result-duration {
+        display: inline-block;
+        visibility: hidden;
+		@include mixin.pads();
+        background-color: var(--pico-muted-border-color);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--pico-primary-hover);
+            color: var(--pico-contrast-inverse);
+        }
+    }
+
+    #result-duration-copied {
+        margin-left: 15px;
+        visibility: hidden;
+
+    }
+}
+
+.blink {
+    animation: blink-animation 0.3s ease-in-out;
+    color: var(--pico-primary-inverse);
+}
+
+#version {
+	position:absolute;
+	right:1em;
+	top:1em;
+	display:inline-block;
+	@include mixin.pads();
+}
+
+
+@keyframes blink-animation {
+    0% {
+        background-color: var(--pico-primary);
+    }
+
+    50% {
+        background-color: var(--pico-primary-hover);
+        color: var(--pico-contrast-inverse)
+    }
+
+    100% {
+        background-color: var(--pico-primary);
+    }
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Film Duration time</title>
+</head>
+
+<body>
+    <div class="centered-container">
+        <section>
+            <div id="supported-domains-list">
+                <div><strong>Поддерживаемые ресурсы:</strong></div>
+            </div>
+            <form id="urlForm">
+                <div class="form-inputs">
+                    <div class="form-input">
+                        <input type="text" id="input-url" name="url" placeholder="https://www.youtube.com/watch?v=BUEGL10NPR8">
+                    </div>
+                    <div class="flex flex-justify-between">
+                        <div class="form-submit">
+                            <button id="button-submit">Отправить</button>
+                        </div>
+                        <div class="form-switch">
+                            <label>
+                                <input name="debug" id="switch-debug" type="checkbox" role="switch" />
+                                Дебаг
+                            </label>
+                        </div>
+                    </div>
+                    <div class="results-container">
+                        <div id="result-message-error"></div>
+                        <div id="result-message">
+                            <div id="result-duration-text">Продолжительность ролика: </div>
+                            <div id="result-duration"></div>
+                            <span id="result-duration-copied">Скопировано!</span>
+                        </div>
+                        <pre id="result-debug"></pre>
+                    </div>
+            </form>
+        </section>
+    </div>
+    <div id="version"></div>
+</body>
+
+</html>
