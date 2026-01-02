@@ -95,7 +95,7 @@ async function start() {
 				allowed_sites,
 			)};</script>`;
 			const packageNameVersionScript = `<script>var PACKAGE_NAME_VERSION = ${JSON.stringify(
-				packageJson,
+				{ name: packageJson.name, version: packageJson.version },
 			)};</script>`;
 			html = html.replace(
 				"</body>",
