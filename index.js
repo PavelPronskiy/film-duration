@@ -5,6 +5,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { createServer as createViteServer } from "vite";
 import { Backend } from "./src/backend/index.js";
+import AllowedSites from "./src/server/allowedSites.js";
+
 import youtubedl from "youtube-dl-exec";
 import dotenv from "dotenv";
 import { fileURLToPath } from "node:url";
@@ -16,19 +18,14 @@ const packageJson = JSON.parse(
 	fs.readFileSync(path.resolve(__dirname, "package.json"), "utf-8"),
 );
 
+const allowed_sites = new AllowedSites();
+
 dotenv.config();
 const app = express();
-const PORT = 3000;
-
-const ALLOWED_DOMAINS = [
-	{ domain: "www.youtube.com", proxy: true },
-	{ domain: "youtu.be", proxy: true },
-	{ domain: "rutube.ru", proxy: false },
-	{ domain: "vk.com", proxy: false },
-];
+const PORT = process.env.SERVER_PORT;
 
 const isDev = process.env.NODE_ENV !== "production";
-const BackendLogic = new Backend(youtubedl, ALLOWED_DOMAINS);
+const BackendLogic = new Backend(youtubedl, allowed_sites);
 
 let vite;
 let manifest = {};
@@ -95,7 +92,7 @@ async function start() {
 			}
 
 			const supportedDomainsScript = `<script>var SUPPORTED_DOMAINS_JSON = ${JSON.stringify(
-				ALLOWED_DOMAINS,
+				allowed_sites,
 			)};</script>`;
 			const packageNameVersionScript = `<script>var PACKAGE_NAME_VERSION = ${JSON.stringify(
 				packageJson,

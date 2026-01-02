@@ -1,0 +1,18 @@
+[
+	{
+		"domain": "www.youtube.com",
+		"proxy": true
+	},
+	{
+		"domain": "youtu.be",
+		"proxy": true
+	},
+	{
+		"domain": "rutube.ru",
+		"proxy": false
+	},
+	{
+		"domain": "vk.com",
+		"proxy": false
+	}
+]

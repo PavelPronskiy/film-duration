@@ -1,7 +1,7 @@
 import { performance } from "perf_hooks";
 
 export class Backend {
-	constructor(youtubedl, ALLOWED_DOMAINS) {
+	constructor(youtubedl, allowed_sites) {
 		this.url;
 		this.youtubedl = youtubedl;
 		this.end;
@@ -10,7 +10,7 @@ export class Backend {
 		this.status = "error";
 		this.message = "";
 		this.proxyEnabledWithDomain = false;
-		this.ALLOWED_DOMAINS = ALLOWED_DOMAINS;
+		this.allowed_sites = allowed_sites;
 	}
 
 	async getVideoDuration() {
@@ -58,7 +58,7 @@ export class Backend {
 			const parsed = new URL(url);
 			const host = parsed.hostname.toLowerCase();
 
-			const matched = this.ALLOWED_DOMAINS.find(({ domain }) => {
+			const matched = this.allowed_sites.find(({ domain }) => {
 				return host === domain || host.endsWith(`.${domain}`);
 			});
 

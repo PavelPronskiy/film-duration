@@ -22,9 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	const supportedDomainsListElement = document.createElement("ul");
 
-	// Создаем три li и добавляем их в supportedDomainsListElement
 	window.SUPPORTED_DOMAINS_JSON.forEach((item) => {
 		const li = document.createElement("li");
+		console.log(item);
 		// const proxy = item.proxy ? "вкл" : "выкл";
 		// li.textContent = `Домен: ${item.domain} Прокси: ${proxy}`;
 		li.textContent = `${item.domain}`;
