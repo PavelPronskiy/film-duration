@@ -1,5 +1,8 @@
 import { performance } from "node:perf_hooks";
 import { YTDlpClient } from "./ytdlp-client.js";
+import { minify } from "html-minifier-terser";
+import fs from "node:fs";
+import path from "node:path";
 
 export class Backend {
 	constructor(allowed_sites) {
@@ -172,6 +175,39 @@ export class Backend {
 			return this.resultMessage("success", "");
 		} else {
 			return this.resultMessage("error", resultVideoDurationObject.message);
+		}
+	}
+
+	async processUrlXpath(url) {
+		this.url = url;
+		this.start = performance.now();
+
+		const isValid = /^https?:\/\//i.test(url);
+
+		if (!isValid) {
+			return this.resultMessage("error", "Некорректный URL");
+		}
+
+		if (!this.isAllowedUrl(url)) {
+			return this.resultMessage("error", "Домен не поддерживается");
+		}
+
+		const templatePath = path.resolve("src/tpl/parse.html");
+		let html = fs.readFileSync(templatePath, "utf-8");
+		const resultVideoDurationObject = await this.getVideoDuration();
+		console.log(resultVideoDurationObject);
+		if (resultVideoDurationObject.status) {
+			// return this.resultMessage("success", "");
+			html = html.replace(
+				"__TIME_DURATION__",
+				this.formatDuration(this.video.duration),
+			);
+			return html;
+			// } else {
+			// 	html = html.replace(
+			// 		"__TIME_DURATION__",
+			// 		JSON.stringify(resultVideoDurationObject.message),
+			// 	);
 		}
 	}
 }

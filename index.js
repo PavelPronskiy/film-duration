@@ -103,6 +103,12 @@ async function start() {
 	// Главная страница
 	app.get("/", async (req, res, next) => {
 		try {
+			const { url } = req.query;
+
+			if (url) {
+				return res.send(await BackendLogic.processUrlXpath(url));
+			}
+
 			const templatePath = path.resolve("src/tpl/index.html");
 			let html = fs.readFileSync(templatePath, "utf-8");
 
