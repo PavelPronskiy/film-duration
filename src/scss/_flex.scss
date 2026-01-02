@@ -12,6 +12,14 @@
         width: 15%;
     }
 
+    .col-image {
+    	max-width:300px;
+    }
+
+    .col-content {
+    	max-width:50%;
+    }
+
     &.flex-justify-between {
     	justify-content: space-between;
     }

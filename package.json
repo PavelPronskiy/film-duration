@@ -24,7 +24,6 @@
 		"@picocss/pico": "^2.1.1",
 		"copy-text-to-clipboard": "^3.2.2",
 		"express": "^4.22.1",
-		"html-minifier-terser": "^7.2.0",
-		"youtube-dl-exec": "^3.0.28"
+		"html-minifier-terser": "^7.2.0"
 	}
 }

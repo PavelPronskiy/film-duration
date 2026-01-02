@@ -1,10 +1,5 @@
-// import { name as getOSName } from "@nexssp/os";
-
-import fs from "node:fs";
-import path from "node:path";
 import { performance } from "node:perf_hooks";
-import youtubedl from "youtube-dl-exec";
-import nexsspOs from "@nexssp/os";
+import { YTDlpClient } from "./ytdlp-client.js";
 
 export class Backend {
 	constructor(allowed_sites) {
@@ -12,54 +7,75 @@ export class Backend {
 		// this.youtubedl = youtubedl;
 		this.end;
 		this.runtimeMs;
-		this.duration = "00:00:00";
 		this.status = "error";
 		this.message = "";
 		this.proxyEnabledWithDomain = false;
 		this.allowed_sites = allowed_sites;
+		this.video = {
+			duration: "00:00:00",
+			id: "",
+			title: "",
+			thumbnail: "",
+		};
 	}
 
-	getYTDLPBinPath() {
-		const rootDir = process.cwd();
-		const osInfo = nexsspOs(); // создаём экземпляр
-		const distribId = osInfo.get("ID");
+	// async getVideoDuration() {
+	// 	try {
+	// 		const options = {
+	// 			dumpSingleJson: true, // возвращает JSON с метаданными
+	// 			noCheckCertificates: true, // игнорировать сертификаты
+	// 			// youtubeSkipDashManifest: true,
+	// 			noWarnings: true,
+	// 			quiet: true,
+	// 			"socket-timeout": process.env.YTDLP_TIMEOUT,
+	// 		};
 
-		// native yt-dlp
-		if (fs.existsSync(path.resolve(rootDir, ".bin", distribId, "yt-dlp"))) {
-			return path.resolve(rootDir, ".bin", distribId, "yt-dlp");
-		}
+	// 		if (this.proxyEnabledWithDomain) {
+	// 			options.proxy = process.env.YTDLP_PROXY;
+	// 		}
 
-		return false;
-	}
+	// 		if (this.getYTDLPBinPath()) {
+	// 			options.execPath = this.getYTDLPBinPath();
+	// 		}
 
+	// 		const metadataJson = await youtubedl(this.url, options, {
+	// 			// timeout: process.env.YTDLP_TIMEOUT, // таймаут процесса
+	// 			killSignal: "SIGKILL", // сигнал при превышении таймаута
+	// 			env: {
+	// 				...process.env,
+	// 			},
+	// 		});
+
+	// 		this.duration = metadataJson?.duration;
+	// 		return {
+	// 			status: true,
+	// 			message: "",
+	// 		};
+	// 	} catch (err) {
+	// 		const errorMessage = `Ошибка при получении длительности видео: ${err.message}`;
+	// 		// console.error(errorMessage);
+	// 		return {
+	// 			status: false,
+	// 			message: errorMessage,
+	// 		};
+	// 	}
+	// }
 	async getVideoDuration() {
 		try {
-			const options = {
-				dumpSingleJson: true, // возвращает JSON с метаданными
-				noCheckCertificates: true, // игнорировать сертификаты
-				// youtubeSkipDashManifest: true,
-				noWarnings: true,
-				quiet: true,
-				"socket-timeout": process.env.YTDLP_TIMEOUT,
-			};
+			const options = {};
 
 			if (this.proxyEnabledWithDomain) {
 				options.proxy = process.env.YTDLP_PROXY;
 			}
 
-			if (this.getYTDLPBinPath()) {
-				options.execPath = this.getYTDLPBinPath();
-			}
+			// if (this.getYTDLPBinPath()) {
+			// 	options.execPath = this.getYTDLPBinPath();
+			// }
 
-			const metadataJson = await youtubedl(this.url, options, {
-				// timeout: process.env.YTDLP_TIMEOUT, // таймаут процесса
-				killSignal: "SIGKILL", // сигнал при превышении таймаута
-				env: {
-					...process.env,
-				},
-			});
+			const client = new YTDlpClient(options);
 
-			this.duration = metadataJson?.duration;
+			const info = await client.getVideoInfo(this.url);
+			this.video = info;
 			return {
 				status: true,
 				message: "",
@@ -127,7 +143,9 @@ export class Backend {
 			status: status,
 			message: message,
 			runtime: this.formatRuntime(this.runtimeMs),
-			duration: this.formatDuration(this.duration),
+			duration: this.formatDuration(this.video.duration),
+			title: this.video.title,
+			thumbnail: this.video.thumbnail,
 		};
 	}
 

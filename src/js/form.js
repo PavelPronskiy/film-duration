@@ -6,6 +6,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	const formElement = document.getElementById("urlForm");
 	const resultDebugElement = document.getElementById("result-debug");
 	const resultMessageElement = document.getElementById("result-message");
+
+	const resultMessageDurationElement = document.getElementById(
+		"result-message-duration",
+	);
+
+	const resultMessageDurationThumbnailElement = document.getElementById(
+		"result-duration-thumbnail",
+	);
+
+	const resultMessageDurationTitleElement = document.getElementById(
+		"result-duration-title",
+	);
+
 	const resultDurationElement = document.getElementById("result-duration");
 	const resultDurationCopiedElement = document.getElementById(
 		"result-duration-copied",
@@ -24,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	window.SUPPORTED_DOMAINS_JSON.forEach((item) => {
 		const li = document.createElement("li");
-		console.log(item);
+		// console.log(item);
 		// const proxy = item.proxy ? "вкл" : "выкл";
 		// li.textContent = `Домен: ${item.domain} Прокси: ${proxy}`;
 		li.textContent = `${item.domain}`;
@@ -76,6 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			resultDurationElement.style.visibility = "hidden";
 			resultDurationErrorElement.style.display = "none";
 			resultDurationErrorElement.textContent = "";
+			resultMessageDurationTitleElement.textContent = "";
+			const thumb = resultMessageDurationThumbnailElement.querySelector("img");
+			if (thumb) {
+				thumb.remove();
+			}
 		},
 		inactive() {
 			inputUrlElement.removeAttribute("disabled");
@@ -126,6 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 
 			resultDurationElement.textContent = result.duration;
+			resultMessageDurationTitleElement.textContent = result.title;
+
+			const thumbnail = document.createElement("img");
+			thumbnail.src = result.thumbnail;
+			resultMessageDurationThumbnailElement.appendChild(thumbnail);
 
 			resultDurationElement.addEventListener("click", () => {
 				const resultDurationElement =

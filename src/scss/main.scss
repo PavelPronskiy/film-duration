@@ -30,7 +30,7 @@ form {
     border: 1px solid var(--pico-secondary-border);
     border-radius: 30px;
     width: 100%;
-    padding: 2rem;
+    padding: 2rem 2rem 0 2rem;
     // border: 1px solid #ccc;
     // border-radius: 0.5rem;
 }
@@ -69,7 +69,7 @@ form {
 }
 
 #result-message {
-    padding: 15px;
+    padding: 15px 0;
     display: flex;
     display: none;
 
@@ -77,6 +77,16 @@ form {
         margin-right: 15px;
     }
 
+    #result-duration-thumbnail {
+    	margin-right:1.5rem;
+    	img {
+    		max-width:320px;
+    	}
+    }
+
+    #result-duration-title {
+    	font-weight:bold;
+    }
 
     #result-duration {
         display: inline-block;
@@ -92,7 +102,7 @@ form {
     }
 
     #result-duration-copied {
-        margin-left: 15px;
+        // margin-left: 15px;
         visibility: hidden;
 
     }

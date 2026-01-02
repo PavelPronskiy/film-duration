@@ -22,8 +22,29 @@ import nexsspOs from "@nexssp/os";
 const osInfo = nexsspOs(); // создаём экземпляр
 const distribId = osInfo.get("ID");
 
+// import { YTDlpClient } from "./src/backend/ytdlp-client.js";
+
+// const rootDir = process.cwd();
+// const client = new YTDlpClient({
+// 	timeout: 10000,
+// 	execPath: path.resolve(__dirname, ".bin", "linuxmint", "yt-dlp"),
+// 	proxy: "socks5h://192.168.3.1:1080",
+// });
+
+// (async () => {
+// 	try {
+// 		const info = await client.getVideoInfo(
+// 			"https://www.youtube.com/watch?v=mQgTzkO5rzM",
+// 		);
+// 		console.log("Информация о видео:", info);
+// 		process.exit();
+// 	} catch (err) {
+// 		console.error(err);
+// 		process.exit();
+// 	}
+// })();
+
 // console.log(getYTDLPBinPath());
-// process.exit();
 
 const allowed_sites = new AllowedSites();
 
