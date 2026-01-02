@@ -20,6 +20,7 @@
 		"vite": "^7.3.0"
 	},
 	"dependencies": {
+		"@nexssp/os": "^2.1.1",
 		"@picocss/pico": "^2.1.1",
 		"copy-text-to-clipboard": "^3.2.2",
 		"express": "^4.22.1",

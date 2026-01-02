@@ -7,7 +7,7 @@ import { createServer as createViteServer } from "vite";
 import { Backend } from "./src/backend/index.js";
 import AllowedSites from "./src/server/allowedSites.js";
 
-import youtubedl from "youtube-dl-exec";
+// import youtubedl from "youtube-dl-exec";
 import dotenv from "dotenv";
 import { fileURLToPath } from "node:url";
 
@@ -18,6 +18,13 @@ const packageJson = JSON.parse(
 	fs.readFileSync(path.resolve(__dirname, "package.json"), "utf-8"),
 );
 
+import nexsspOs from "@nexssp/os";
+const osInfo = nexsspOs(); // создаём экземпляр
+const distribId = osInfo.get("ID");
+
+// console.log(getYTDLPBinPath());
+// process.exit();
+
 const allowed_sites = new AllowedSites();
 
 dotenv.config();
@@ -25,7 +32,7 @@ const app = express();
 const PORT = process.env.SERVER_PORT;
 
 const isDev = process.env.NODE_ENV !== "production";
-const BackendLogic = new Backend(youtubedl, allowed_sites);
+const BackendLogic = new Backend(allowed_sites);
 
 let vite;
 let manifest = {};
@@ -121,7 +128,9 @@ async function start() {
 		res.json(await BackendLogic.processUrl(req.body.url));
 	});
 
-	app.listen(PORT, () => console.log(`🚀 http://localhost:${PORT}`));
+	app.listen(PORT, () =>
+		console.log(`🚀 http://localhost:${PORT}, distrib: ${distribId}`),
+	);
 }
 
 start();

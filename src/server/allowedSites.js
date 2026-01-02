@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 export default class AllowedSites {
 	constructor() {
@@ -9,7 +9,6 @@ export default class AllowedSites {
 
 	static load() {
 		const rootDir = process.cwd();
-
 		const globalPath = path.resolve(rootDir, "sites.json");
 		const localPath = path.resolve(rootDir, ".sites.json");
 

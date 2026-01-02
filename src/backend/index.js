@@ -1,9 +1,15 @@
-import { performance } from "perf_hooks";
+// import { name as getOSName } from "@nexssp/os";
+
+import fs from "node:fs";
+import path from "node:path";
+import { performance } from "node:perf_hooks";
+import youtubedl from "youtube-dl-exec";
+import nexsspOs from "@nexssp/os";
 
 export class Backend {
-	constructor(youtubedl, allowed_sites) {
+	constructor(allowed_sites) {
 		this.url;
-		this.youtubedl = youtubedl;
+		// this.youtubedl = youtubedl;
 		this.end;
 		this.runtimeMs;
 		this.duration = "00:00:00";
@@ -11,6 +17,19 @@ export class Backend {
 		this.message = "";
 		this.proxyEnabledWithDomain = false;
 		this.allowed_sites = allowed_sites;
+	}
+
+	getYTDLPBinPath() {
+		const rootDir = process.cwd();
+		const osInfo = nexsspOs(); // создаём экземпляр
+		const distribId = osInfo.get("ID");
+
+		// native yt-dlp
+		if (fs.existsSync(path.resolve(rootDir, ".bin", distribId, "yt-dlp"))) {
+			return path.resolve(rootDir, ".bin", distribId, "yt-dlp");
+		}
+
+		return false;
 	}
 
 	async getVideoDuration() {
@@ -28,13 +47,15 @@ export class Backend {
 				options.proxy = process.env.YTDLP_PROXY;
 			}
 
-			const metadataJson = await this.youtubedl(this.url, options, {
+			if (this.getYTDLPBinPath()) {
+				options.execPath = this.getYTDLPBinPath();
+			}
+
+			const metadataJson = await youtubedl(this.url, options, {
 				// timeout: process.env.YTDLP_TIMEOUT, // таймаут процесса
 				killSignal: "SIGKILL", // сигнал при превышении таймаута
 				env: {
 					...process.env,
-					PYTHONWARNINGS: "ignore",
-					pythonArgs: ["-W", "ignore"],
 				},
 			});
 
